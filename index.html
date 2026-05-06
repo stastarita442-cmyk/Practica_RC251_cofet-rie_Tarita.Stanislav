@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dulce Deliciu - Cofetărie Artizanală">
+    <meta name="author" content="Stanisalv Tarîța">
+    <title>Dulce Deliciu | Acasă</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; }
+        .product-card {
+            transition: all 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+        .product-img {
+            height: 260px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-3xl">🍰</div>
+                <div>
+                    <h1 class="text-2xl font-bold">Dulce Deliciu</h1>
+                    <p class="text-xs text-emerald-600">Cofetărie Artizanală</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-sm font-medium">
+                <a href="#" class="hover:text-emerald-600">Acasă</a>
+                <a href="#" class="hover:text-emerald-600">Produse</a>
+                <a href="#" class="hover:text-emerald-600">Despre Noi</a>
+                <a href="#" class="hover:text-emerald-600">Contact</a>
+            </div>
+            
+            <button onclick="toggleMobileMenu()" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="bg-gradient-to-br from-gray-100 to-gray-200 py-20 text-center">
+        <div class="max-w-5xl mx-auto px-6">
+            <h1 class="text-6xl md:text-7xl font-black text-gray-900">Dulce Deliciu</h1>
+            <p class="text-2xl text-gray-600 mt-4">Gustul autentic al momentelor speciale</p>
+        </div>
+    </header>
+
+    <!-- Produse -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">Produse Recomandate</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- 1. Tort Ciocolata -->
+                <div class="product-card bg-white rounded-3xl overflow-hidden shadow-sm border">
+                    <img src="assets/img/tort cu ciocolata.jpg"
+                         alt="Tort de ciocolată" class="product-img w-full">
+                    <div class="p-5">
+                        <h3 class="font-semibold text-lg">Tort de Ciocolată</h3>
+                        <p class="text-emerald-600 font-medium">89 lei</p>
+                    </div>
+                </div>
+
+                <!-- 2. Macarons -->
+                <div class="product-card bg-white rounded-3xl overflow-hidden shadow-sm border">
+                    <img src="assets/img/Macarons asortate.jpeg" 
+                         alt="Macarons" class="product-img w-full">
+                    <div class="p-5">
+                        <h3 class="font-semibold text-lg">Macarons Asortate</h3>
+                        <p class="text-emerald-600 font-medium">45 lei / 6 buc</p>
+                    </div>
+                </div>
+
+                <!-- 3. Eclere -->
+                <div class="product-card bg-white rounded-3xl overflow-hidden shadow-sm border">
+                    <img src="assets/img/Eclere cu vanilie.jpeg" 
+                         alt="Eclere" class="product-img w-full">
+                    <div class="p-5">
+                        <h3 class="font-semibold text-lg">Eclere cu Vanilie</h3>
+                        <p class="text-emerald-600 font-medium">12 lei / buc</p>
+                    </div>
+                </div>
+
+                <!-- 4. Prajitura cu Fructe -->
+                <div class="product-card bg-white rounded-3xl overflow-hidden shadow-sm border">
+                    <img src="assets/img/Prajituri cu fructe.webp" 
+                         alt="Prajitură cu fructe" class="product-img w-full">
+                    <div class="p-5">
+                        <h3 class="font-semibold text-lg">Prajitură cu Fructe</h3>
+                        <p class="text-emerald-600 font-medium">65 lei</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl">📍</div>
+                    <div><p class="font-semibold">Adresă</p><p class="text-gray-600 text-xs">Str. Ion Creangă 45, Chișinău</p></div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl">📞</div>
+                    <div><p class="font-semibold">Telefon</p><p class="text-gray-600 text-xs">079 604 723</p></div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl">✉️</div>
+                    <div><p class="font-semibold">Email</p><p class="text-gray-600 text-xs">contact@dulcedeliciu.md</p></div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl">🕒</div>
+                    <div><p class="font-semibold">Program</p><p class="text-gray-600 text-xs">L-V: 08:00-20:00</p></div>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-500 mt-12 pt-8 border-t">
+                <p>&copy; 2026 Dulce Deliciu • Proiect de practică - Colegiul UTM</p>
+                <p class="mt-1">Realizat de Stanisalv Tarîța</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+    </script>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden fixed inset-0 bg-white z-50 md:hidden">
+        <div class="p-6">
+            <div class="flex justify-between mb-10">
+                <div class="flex items-center gap-3">
+                    <span class="text-4xl">🍰</span>
+                    <h2 class="text-3xl font-bold">Dulce Deliciu</h2>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-4xl">✕</button>
+            </div>
+            <div class="space-y-6 text-xl">
+                <a href="#" class="block py-3 border-b">Acasă</a>
+                <a href="#" class="block py-3 border-b">Produse</a>
+                <a href="#" class="block py-3 border-b">Despre Noi</a>
+                <a href="#" class="block py-3 border-b">Contact</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
