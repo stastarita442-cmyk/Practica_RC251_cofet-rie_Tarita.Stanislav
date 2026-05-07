@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>The Perfect Box</title>
+  <style>
+
+    /* ===== A. FLEXBOX ===== */
+
+    .flexbox-container {
+      display: flex;
+      height: 80vh;
+      border: 4px double #333;    /* bordură dublă */
+      background-color: #f0f0f0;
+    }
+
+    .box-1 {
+      width: 100px;
+      height: 100px;
+      background-color: #e74c3c;
+      /* stânga-sus: comportament implicit, nu trebuie nimic */
+    }
+
+    .box-2 {
+      width: 100px;
+      height: 100px;
+      background-color: #2ecc71;
+      /* centru perfect pe ambele axe */
+      margin: auto;
+    }
+
+    .box-3 {
+      width: 100px;
+      height: 100px;
+      background-color: #3498db;
+      /* dreapta-jos: align-self mută pe axa verticală */
+      align-self: flex-end;
+      /* margin-left: auto împinge elementul spre dreapta */
+      margin-left: auto;
+    }
+
+    /* ===== B. GRID ===== */
+
+    .grid-container {
+      display: grid;
+      /* 2 coloane egale */
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;                  /* gap exact 25px */
+      margin-top: 40px;
+      padding: 20px;
+      background-color: rgba(52, 152, 219, 0.1); /* rgba cu transparență */
+    }
+
+    .grid-item {
+      background-color: rgba(46, 204, 113, 0.6);
+      padding: 30px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .grid-item-1 {
+      /* primul element ocupă 2 coloane */
+      grid-column: 1 / 3;
+      background-color: rgba(231, 76, 60, 0.6);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- SECȚIUNEA FLEXBOX -->
+  <div class="flexbox-container">
+    <div class="box-1">Box 1</div>
+    <div class="box-2">Box 2</div>
+    <div class="box-3">Box 3</div>
+  </div>
+
+  <!-- SECȚIUNEA GRID -->
+  <div class="grid-container">
+    <div class="grid-item grid-item-1">Element 1 (2 coloane)</div>
+    <div class="grid-item">Element 2</div>
+    <div class="grid-item">Element 3</div>
+    <div class="grid-item">Element 4</div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+Erori identificate: 2. Rezolvare: Am corectat utilizarea tag-ului <h1> astfel încât 
+să existe un singur <h1> pe pagină (mutat din navbar în hero), iar în navbar a fost
+înlocuit cu <span> pentru respectarea structurii semantice HTML și evitarea problemelor 
+de accesibilitate și SEO.
