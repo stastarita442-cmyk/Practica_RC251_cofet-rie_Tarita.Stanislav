@@ -1,0 +1,84 @@
+; =========================================================================
+; RFC 1035 ZONE FILE - CONFIGURARE DNS ENTERPRISE
+; Domeniu Autoritar: stanislav.tarita.rc251.utm.md
+; Configurat de: Tarîța Stanislav | Data: 18.05.2026
+; =========================================================================
+
+$ORIGIN stanislav.tarita.rc251.utm.md.
+$TTL 3600 ; TTL Implicit Global: 1 oră
+
+; -------------------------------------------------------------------------
+; 1. ÎNREGISTRAREA START OF AUTHORITY (SOA)
+; -------------------------------------------------------------------------
+@   IN  SOA  ns1.rc251.utm.md. admin.stanislav.tarita.rc251.utm.md. (
+            2026051802 ; Serial: Format YYYYMMDDNN (Data curentă + Versiunea 02)
+            7200       ; Refresh: Interval de interogare pentru serverele Secondary (2 ore)
+            3600       ; Retry: Interval de reîncercare în caz de eșec (1 oră)
+            1209600    ; Expire: Limita de timp pentru validitatea datelor offline (2 săptămâni)
+            1800       ; Minimum TTL: Cache negativ pentru interogări eșuate (30 minute)
+)
+
+; -------------------------------------------------------------------------
+; 2. NAMESERVERS (NS) - Delegarea autorității
+; -------------------------------------------------------------------------
+@   IN  NS   ns1.rc251.utm.md.
+@   IN  NS   ns2.rc251.utm.md.
+
+; -------------------------------------------------------------------------
+; 3. ADRESE IP PRIMARE (A Records) - Maparea către serverele Cloud
+; -------------------------------------------------------------------------
+; Maparea rădăcinii domeniului către IP-urile serverelor Edge Netlify
+@   IN  A    75.2.60.5
+@   IN  A    99.83.190.102
+
+; -------------------------------------------------------------------------
+; 4. SUBDOMENII ȘI ALIASE (CNAME Records)
+; -------------------------------------------------------------------------
+; CNAME Target Lock: www indică direct către domeniul live Netlify (FQDN cu punct final)
+; Am schimbat @ cu domeniul Netlify real pentru a asigura rezoluția corectă
+; către infrastructura cloud activă, indiferent de modificările zonei de bază
+www IN  CNAME lucent-lily-7b08af.netlify.app.
+
+; -------------------------------------------------------------------------
+; 5. CONFIGURARE EMAIL CU PRIORITĂȚI (MX Records)
+; -------------------------------------------------------------------------
+; Serverul primar de mail (Prioritate 10) și cel secundar de backup (Prioritate 20)
+@   IN  MX  10 mail.rc251.utm.md.
+@   IN  MX  20 backup-mail.rc251.utm.md.
+mail IN A   193.226.50.12 ; IP-ul serverului de mail UTM
+
+; -------------------------------------------------------------------------
+; 6. SECURIZARE PORTFOLIO & VERIFICARE DOMENIU (TXT Records)
+; -------------------------------------------------------------------------
+; Verificarea de securitate Google Console
+@   IN  TXT  "google-site-verification=UX251_UTM_ENGINEERING_VERIFIED"
+
+; -------------------------------------------------------------------------
+; POLITICA SPF - ANALIZĂ COMPARATIVĂ DE SECURITATE
+; -------------------------------------------------------------------------
+; VARIANTA ULTRA-PERMISIVĂ (mai puțin sigură - folosită pentru demonstrație):
+; "v=spf1 mx ip4:1.2.3.4 ~all"
+; Simbolul ~all = SoftFail: e-mailurile de pe IP-uri neautorizate sunt ACCEPTATE
+; dar marcate ca suspecte. Un atacator care cunoaște IP-ul 1.2.3.4 poate
+; falsifica e-mailuri care vor ajunge totuși în inbox, doar marcate.
+;
+; VARIANTA RESTRICTIVĂ (activă - superioară din punct de vedere al securității):
+; "v=spf1 mx -all"
+; Simbolul -all = HardFail: ORICE e-mail trimis de pe un IP care nu este
+; listat explicit în înregistrările MX ale domeniului va fi RESPINS complet
+; de serverul receptor. Nu există zone gri - fie ești autorizat, fie mesajul
+; este blocat. Aceasta elimină complet vectorul de atac prin email spoofing.
+; -------------------------------------------------------------------------
+@   IN  TXT  "v=spf1 mx -all"
+
+; Politica DMARC: Respingerea totală a e-mailurilor falsificate + raportare
+_dmarc IN TXT "v=DMARC1; p=reject; pct=100; rua=mailto:dmarc-reports@stanislav.tarita.rc251.utm.md"
+
+; -------------------------------------------------------------------------
+; 7. CONTROL CERTIFICARE SSL (CAA Records)
+; -------------------------------------------------------------------------
+; Autorizăm DOAR Let's Encrypt să poată emite certificate SSL
+; Orice altă autoritate de certificare (DigiCert, Comodo etc.) este blocată
+; Aceasta previne atacurile MitM prin certificate SSL frauduloase
+@   IN  CAA  0 issue "letsencrypt.org"
+@   IN  CAA  0 iodef "mailto:security-alerts@stanislav.tarita.rc251.utm.md"
