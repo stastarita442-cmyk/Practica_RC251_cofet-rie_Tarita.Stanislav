@@ -41,7 +41,6 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
         .header {
             display: flex;
             justify-content: space-between;
@@ -65,7 +64,6 @@
         .nav-menu a:hover { color: var(--accent); }
         .active-link { color: var(--accent) !important; border-bottom: 2px solid var(--accent); }
 
-        /* THEME TOGGLE */
         .theme-btn {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -81,7 +79,6 @@
         }
         .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* HERO */
         .core-section {
             text-align: center;
             padding: 80px 20px 60px;
@@ -98,7 +95,6 @@
 
         .accent-text { color: var(--accent); }
 
-        /* STATS */
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -128,7 +124,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* SYSTEM CARDS */
         .system-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -145,7 +140,6 @@
         .system-card h3 { color: var(--accent); font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
         .system-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
 
-        /* STATUS BADGE */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -163,7 +157,6 @@
 
         .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-        /* TOGGLE SWITCH */
         .toggle-row {
             display: flex;
             justify-content: space-between;
@@ -210,7 +203,6 @@
         .switch input:checked + .slider { background: var(--accent); }
         .switch input:checked + .slider::before { transform: translateX(20px); }
 
-        /* RESET BUTTON */
         .reset-btn {
             background: transparent;
             border: 1px solid var(--border);
@@ -245,7 +237,6 @@
 
         .primary-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
-        /* PROGRESS BAR */
         .progress-bar {
             height: 6px;
             background: var(--border);
@@ -261,7 +252,6 @@
             transition: width 1s ease;
         }
 
-        /* SECTION TITLE */
         .section-title {
             font-size: 1.4rem;
             font-weight: 700;
@@ -279,7 +269,6 @@
             background: var(--border);
         }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -546,6 +535,9 @@
         }, 400);
     });
 </script>
+
+<!-- ✅ Telemetry Engine RC 251 -->
+<script src="../assets/js/telemetry.js"></script>
 
 </body>
 </html>
