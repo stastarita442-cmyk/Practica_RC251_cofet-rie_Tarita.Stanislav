@@ -1,0 +1,318 @@
+/* =========================================================
+   404.css — Pagina de eroare | Enterprise RC 251
+   Fonturi: Bebas Neue (display) + DM Mono (code) + Outfit (body)
+   ========================================================= */
+
+/* ── Reset & variabile ─────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:        #060612;
+  --surface:   #0d0d22;
+  --red:       #ff2d55;
+  --blue:      #00c8ff;
+  --text:      #e8e8f4;
+  --muted:     #5a5a80;
+  --border:    rgba(255, 255, 255, 0.07);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+  --font-body:    'Outfit', sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Grid de fundal animat ─────────────────────────────── */
+.bg-grid {
+  position: fixed;
+  inset: -60px;
+  background-image:
+    linear-gradient(rgba(0, 200, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: gridScroll 25s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridScroll {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(64px, 64px); }
+}
+
+/* ── Orbs luminoase ────────────────────────────────────── */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.orb--red {
+  width: 500px;
+  height: 500px;
+  background: var(--red);
+  top: -160px;
+  right: -120px;
+  animation: floatA 9s ease-in-out infinite;
+}
+
+.orb--blue {
+  width: 380px;
+  height: 380px;
+  background: var(--blue);
+  bottom: -120px;
+  left: -100px;
+  animation: floatB 12s ease-in-out infinite;
+}
+
+@keyframes floatA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-30px, 25px) scale(1.07); }
+}
+
+@keyframes floatB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(25px, -20px) scale(1.05); }
+}
+
+/* ── Grain overlay ─────────────────────────────────────── */
+.noise {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Wrapper principal ─────────────────────────────────── */
+.wrapper {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  max-width: 680px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+
+  /* Animație intrare */
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Badge ─────────────────────────────────────────────── */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  border: 1px solid rgba(255, 45, 85, 0.35);
+  background: rgba(255, 45, 85, 0.08);
+  padding: 0.35rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.7s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Codul 404 ─────────────────────────────────────────── */
+.code-wrap {
+  position: relative;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.code {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 24vw, 14rem);
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--red) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glitch 5s 2s infinite;
+}
+
+/* Copie fantomă pentru efect glitch */
+.code--ghost {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  animation: glitchGhost 5s 2s infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes glitch {
+  0%, 88%, 100% { transform: translate(0, 0); clip-path: none; }
+  90%            { transform: translate(-4px, 2px); clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%); }
+  92%            { transform: translate(4px, -2px); clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); }
+  94%            { transform: translate(0, 0); clip-path: none; }
+}
+
+@keyframes glitchGhost {
+  0%, 88%, 94%, 100% { opacity: 0; transform: translate(0, 0); }
+  90%                 { opacity: 0.6; transform: translate(6px, -3px); clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%); }
+  92%                 { opacity: 0.4; transform: translate(-6px, 3px); clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); }
+}
+
+/* ── Titlu ─────────────────────────────────────────────── */
+.title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 1rem;
+  animation: fadeUp 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Descriere ─────────────────────────────────────────── */
+.desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.7s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Butoane ───────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.7s 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 3px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Buton primar */
+.btn--primary {
+  background: var(--red);
+  color: #fff;
+  border: 2px solid var(--red);
+  box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.4);
+}
+
+.btn--primary:hover {
+  background: transparent;
+  color: var(--red);
+  box-shadow: 0 0 24px rgba(255, 45, 85, 0.3);
+}
+
+/* Buton ghost */
+.btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid var(--border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ── Linie de status ───────────────────────────────────── */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  animation: fadeUp 0.7s 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meta code {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+}
+
+/* Dot pulsant */
+.pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 2rem 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .desc br {
+    display: none;
+  }
+}

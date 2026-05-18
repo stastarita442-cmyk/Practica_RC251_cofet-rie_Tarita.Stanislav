@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural System Center | System Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* TEME */
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.6);
+            --border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #f97316;
+            --accent-hover: #ea580c;
+            --accent-soft: rgba(249, 115, 22, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ecfdf5;
+            --bg-secondary: #d1fae5;
+            --bg-card: rgba(209, 250, 229, 0.6);
+            --border: #6ee7b7;
+            --text-primary: #064e3b;
+            --text-secondary: #065f46;
+            --accent: #f97316;
+            --accent-hover: #ea580c;
+            --accent-soft: rgba(249, 115, 22, 0.15);
+        }
+
+        * { transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 50px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-menu { display: flex; gap: 25px; list-style: none; }
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-menu a:hover { color: var(--accent); }
+        .active-link { color: var(--accent) !important; border-bottom: 2px solid var(--accent); }
+
+        /* THEME TOGGLE */
+        .theme-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* HERO */
+        .core-section {
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+
+        .core-box {
+            display: inline-block;
+            padding: 50px 60px;
+            border-radius: 30px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            box-shadow: 0 0 60px var(--accent-soft);
+        }
+
+        .accent-text { color: var(--accent); }
+
+        /* STATS */
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-soft);
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            letter-spacing: 0.1em;
+        }
+
+        /* SYSTEM CARDS */
+        .system-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 28px;
+            transition: 0.3s;
+        }
+
+        .system-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-soft);
+        }
+
+        .system-card h3 { color: var(--accent); font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+        .system-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+        /* STATUS BADGE */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-green { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-orange { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.3); }
+        .badge-red { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+        /* TOGGLE SWITCH */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-row:last-child { border-bottom: none; }
+
+        .toggle-label { color: var(--text-primary); font-size: 14px; font-weight: 500; }
+        .toggle-desc { color: var(--text-secondary); font-size: 12px; margin-top: 2px; }
+
+        .switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input { display: none; }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider { background: var(--accent); }
+        .switch input:checked + .slider::before { transform: translateX(20px); }
+
+        /* RESET BUTTON */
+        .reset-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reset-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(239,68,68,0.05);
+        }
+
+        .primary-btn {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .primary-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✔ Setări salvate cu succes!</div>
+
+<!-- HEADER -->
+<header class="header">
+    <div style="color: var(--accent); font-size: 1.2rem; font-weight: 900; letter-spacing: -0.05em;">
+        SYS.CONTROL
+    </div>
+
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="../index.html">Acasă</a></li>
+            <li><a href="../index.html#servicii">Servicii</a></li>
+            <li><a href="../index.html#orar">Lista de Prețuri</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+            <li><a href="#" class="active-link">System Control</a></li>
+        </ul>
+    </nav>
+
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+        🌙 Dark Mode
+    </button>
+</header>
+
+<!-- HERO -->
+<section class="core-section">
+    <div class="core-box">
+        <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 8px;">NEURAL CORE</h1>
+        <p class="accent-text" style="letter-spacing: 0.3em; font-family: monospace; font-size: 13px; margin-bottom: 20px;">
+            CENTRAL PROCESSING UNIT
+        </p>
+        <div style="background: rgba(0,0,0,0.2); padding: 10px 20px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary);">
+            <span class="dot" style="background: #10b981;"></span> AI ACTIVE
+            <span style="margin: 0 4px;">•</span>
+            <span class="dot" style="background: var(--accent);"></span> SYSTEMS SYNCHRONIZED
+            <span style="margin: 0 4px;">•</span>
+            <span class="dot" style="background: #10b981;"></span> GPU ONLINE
+        </div>
+    </div>
+</section>
+
+<div class="max-w-6xl mx-auto px-6 pb-20" style="display: flex; flex-direction: column; gap: 40px;">
+
+    <!-- STATISTICI -->
+    <div>
+        <div class="section-title">📊 Statistici Live</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px;">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-comenzi">0</div>
+                <div class="stat-label">COMENZI AZI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-clienti">0</div>
+                <div class="stat-label">CLIENȚI ACTIVI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-venit">0</div>
+                <div class="stat-label">VENIT (LEI)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-uptime">0%</div>
+                <div class="stat-label">UPTIME SISTEM</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SISTEM + CONTROALE -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+
+        <!-- MODULE SISTEM -->
+        <div>
+            <div class="section-title">⚙️ Module Sistem</div>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+
+                <div class="system-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h3 style="margin: 0;">Render Engine</h3>
+                        <span class="badge badge-green"><span class="dot"></span> ACTIV</span>
+                    </div>
+                    <p>Procesare grafică în timp real pentru vizualizarea laboratorului.</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 78%;"></div></div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">78% utilizare GPU</div>
+                </div>
+
+                <div class="system-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h3 style="margin: 0;">AI Compute</h3>
+                        <span class="badge badge-orange"><span class="dot"></span> PROCESARE</span>
+                    </div>
+                    <p>Unitate neuronală pentru optimizarea rețetelor și stocurilor.</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 55%;"></div></div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">55% utilizare CPU</div>
+                </div>
+
+                <div class="system-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h3 style="margin: 0;">Security Mesh</h3>
+                        <span class="badge badge-green"><span class="dot"></span> SECURIZAT</span>
+                    </div>
+                    <p>Criptare multi-strat pentru protecția datelor de rezervare.</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">100% protecție activă</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CONTROALE -->
+        <div>
+            <div class="section-title">🎛️ Controale</div>
+            <div class="system-card" style="margin-bottom: 16px;">
+                <div class="toggle-row">
+                    <div>
+                        <div class="toggle-label">Notificări comenzi</div>
+                        <div class="toggle-desc">Alertă la fiecare comandă nouă</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked id="toggle-notif">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <div>
+                        <div class="toggle-label">Mod mentenanță</div>
+                        <div class="toggle-desc">Blochează accesul public temporar</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-maintenance">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <div>
+                        <div class="toggle-label">Backup automat</div>
+                        <div class="toggle-desc">Salvare date la fiecare 24h</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked id="toggle-backup">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <div>
+                        <div class="toggle-label">Livrare activă</div>
+                        <div class="toggle-desc">Activează modulul de livrare</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked id="toggle-delivery">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="primary-btn" onclick="saveSettings()">💾 Salvează setările</button>
+                <button class="reset-btn" onclick="resetStats()">🔄 Reset statistici</button>
+                <button class="reset-btn" onclick="resetToggles()">↩️ Reset toggleuri</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // THEME TOGGLE
+    function toggleTheme() {
+        const html = document.documentElement;
+        const btn = document.getElementById("themeBtn");
+        if (html.getAttribute("data-theme") === "dark") {
+            html.setAttribute("data-theme", "light");
+            btn.textContent = "🌙 Dark Mode";
+        } else {
+            html.setAttribute("data-theme", "dark");
+            btn.textContent = "☀️ Light Mode";
+        }
+    }
+
+    // ANIMATIE STATISTICI
+    function animateStat(id, target, suffix = "") {
+        let current = 0;
+        const step = Math.ceil(target / 60);
+        const el = document.getElementById(id);
+        const interval = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(interval);
+            }
+            el.textContent = current + suffix;
+        }, 20);
+    }
+
+    // TOAST
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+
+    // SALVARE SETARI
+    function saveSettings() {
+        showToast("✔ Setări salvate cu succes!");
+    }
+
+    // RESET STATISTICI
+    function resetStats() {
+        ["stat-comenzi", "stat-clienti", "stat-venit"].forEach(id => {
+            document.getElementById(id).textContent = "0";
+        });
+        document.getElementById("stat-uptime").textContent = "0%";
+        showToast("🔄 Statistici resetate!");
+        setTimeout(() => {
+            animateStat("stat-comenzi", 47);
+            animateStat("stat-clienti", 213);
+            animateStat("stat-venit", 3840);
+            animateStat("stat-uptime", 99, "%");
+        }, 500);
+    }
+
+    // RESET TOGGLEURI
+    function resetToggles() {
+        document.getElementById("toggle-notif").checked = true;
+        document.getElementById("toggle-maintenance").checked = false;
+        document.getElementById("toggle-backup").checked = true;
+        document.getElementById("toggle-delivery").checked = true;
+        showToast("↩️ Toggleurile au fost resetate!");
+    }
+
+    // PORNIRE ANIMATII
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            animateStat("stat-comenzi", 47);
+            animateStat("stat-clienti", 213);
+            animateStat("stat-venit", 3840);
+            animateStat("stat-uptime", 99, "%");
+        }, 400);
+    });
+</script>
+
+</body>
+</html>

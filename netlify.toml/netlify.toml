@@ -1,0 +1,100 @@
+# ============================================================
+#  NETLIFY.TOML — Configurare Enterprise de Securitate & Routing
+#  Proiect: RC 251 | Edge Security Configuration
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. SETĂRI GENERALE DE BUILD
+# ------------------------------------------------------------
+[build]
+  publish = "."          # Directorul publicat (schimbă dacă ai /dist sau /public)
+  command = ""           # Lasă gol dacă nu ai un build step (ex: npm run build)
+
+
+# ------------------------------------------------------------
+# 2. REDIRECȚIONARE HTTP → HTTPS (Edge Redirect 301)
+#    Forțează conexiune securizată pentru orice URL http://
+# ------------------------------------------------------------
+[[redirects]]
+  from   = "http://*"
+  to     = "https://:splat"
+  status = 301
+  force  = true
+
+
+# ------------------------------------------------------------
+# 3. FALLBACK 404 PERSONALIZAT (Edge Routing)
+#    Orice pagină inexistentă → 404.html, fără schimbarea URL-ului
+# ------------------------------------------------------------
+[[redirects]]
+  from   = "/*"
+  to     = "/404.html"
+  status = 404
+
+
+# ------------------------------------------------------------
+# 4. HEADERE DE SECURITATE — aplicate pe TOATE rutele
+# ------------------------------------------------------------
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+
+    # --- Clickjacking Protection ---
+    # Blochează încadrarea site-ului în iFrame-uri externe
+    X-Frame-Options = "DENY"
+
+    # --- MIME Sniffing Prevention ---
+    # Browserul nu va "ghici" tipul fișierului; respectă Content-Type declarat
+    X-Content-Type-Options = "nosniff"
+
+    # --- XSS Filter (browsere mai vechi) ---
+    # Activează filtrul built-in de XSS în browsere legacy
+    X-XSS-Protection = "1; mode=block"
+
+    # --- HTTP Strict Transport Security (HSTS) ---
+    # Forțează HTTPS timp de 1 an; include subdomenii; eligibil pentru preload list
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # --- Content Security Policy (CSP) ---
+    # Permite doar resurse din același origin + inline styles/scripts controlate
+    # cdnjs.cloudflare.com permis pentru librării externe (Bootstrap, FontAwesome etc.)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self';"
+
+    # --- Referrer Policy ---
+    # Trimite origin complet doar către același site; doar origin către HTTPS extern
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # --- Permissions Policy ---
+    # Dezactivează explicit API-uri browser periculoase (cameră, microfon, GPS etc.)
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+
+# ------------------------------------------------------------
+# 5. HEADERE SUPLIMENTARE PENTRU FIȘIERE STATICE
+#    Cache optimizat pentru assets (CSS, JS, imagini)
+# ------------------------------------------------------------
+[[headers]]
+  for = "/assets/*"
+
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

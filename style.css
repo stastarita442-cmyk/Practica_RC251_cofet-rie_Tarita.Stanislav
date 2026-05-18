@@ -1,0 +1,338 @@
+/* =============================================
+   ROOT VARIABLES
+============================================= */
+:root {
+    --bg-color: #f0f4ff;
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --error: #ef4444;
+    --error-hover: #dc2626;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* =============================================
+   A. IERARHIA SEMANTICĂ — dimensiuni vizuale
+   Tag-urile H1/H2/H3 sunt corecte semantic.
+   Clasele CSS controlează DOAR aspectul vizual.
+============================================= */
+
+/* H1 — titlul principal al paginii (hero) */
+h1 {
+    font-size: clamp(2.2rem, 6vw, 3.75rem);
+    font-weight: 900;
+}
+
+/* H2 — titluri de secțiune */
+h2 {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 700;
+}
+
+/* H3 — subtitluri în card-uri și subsecțiuni */
+h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+/* =============================================
+   NAV
+============================================= */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+/* =============================================
+   MENIU MOBIL
+   Ascuns implicit; toggle prin JS adaugă
+   clasa .mobile-menu-open.
+============================================= */
+.mobile-menu-hidden {
+    display: none;
+}
+
+.mobile-menu-open {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* =============================================
+   HERO
+============================================= */
+.hero-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1600&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+/* =============================================
+   SERVICES GRID
+============================================= */
+.services-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.service-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+    flex: 1 1 calc(33.333% - 2rem);
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .service-card {
+        flex: 1 1 100%;
+    }
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+}
+
+/* =============================================
+   PRODUCT CARD
+============================================= */
+.product-card {
+    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* =============================================
+   TABEL ORAR
+============================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+th {
+    background: var(--primary);
+    color: white;
+    padding: 18px 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+td {
+    padding: 16px 12px;
+    text-align: center;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+tr:hover {
+    background: #ecfdf5 !important;
+    transition: background 0.3s;
+}
+
+tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+/* =============================================
+   FORMULAR REZERVARE
+============================================= */
+form {
+    background: var(--bg-color);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 450px;
+    margin: auto;
+}
+
+.field {
+    position: relative;
+}
+
+.field input {
+    width: 100%;
+    padding: 14px 10px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    outline: none;
+    background: transparent;
+    transition: border-color 0.3s;
+}
+
+.field input:focus {
+    border-color: var(--primary);
+}
+
+/* INPUT EROARE */
+.field input.error {
+    border-color: var(--error);
+}
+
+.field input.error + label {
+    color: var(--error);
+}
+
+.error-msg {
+    display: none;
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 4px;
+}
+
+.error-msg.show {
+    display: block;
+}
+
+.field label {
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    color: #666;
+    transition: top 0.2s, font-size 0.2s, color 0.2s;
+    background: var(--bg-color);
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label {
+    top: -10px;
+    font-size: 12px;
+    color: var(--primary);
+}
+
+/* =============================================
+   BUTTONS
+============================================= */
+button {
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+/* BUTON EROARE */
+button.error-state {
+    background: var(--error);
+}
+
+button.error-state:hover {
+    background: var(--error-hover);
+}
+
+button.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+button.loading::after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    transform: translateY(-50%);
+}
+
+@keyframes spin {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to   { transform: translateY(-50%) rotate(360deg); }
+}
+
+.success-msg {
+    display: none;
+    text-align: center;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.success-msg.show {
+    display: block;
+}
+
+/* =============================================
+   RC 251 #3 — FOCUS MANAGEMENT
+   Toate elementele interactive primesc un
+   indicator vizual clar la navigarea cu TAB.
+   Bordură albastră + shadow pentru contrast maxim.
+============================================= */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+[role="button"]:focus {
+    outline: 4px solid #0066ff !important;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgba(0, 102, 255, 0.3) !important;
+}
+
+/* =============================================
+   SKIP LINK — accesibilitate tastatură
+   Invizibil implicit, apare la :focus (TAB).
+============================================= */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    background: #000;
+    color: white;
+    padding: 10px 14px;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 10px;
+}
